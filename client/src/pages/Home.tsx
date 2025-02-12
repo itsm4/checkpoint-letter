@@ -4,15 +4,19 @@ import "../styles/Home.css";
 import bgClouds from "../assets/images/bg-clouds.jpg";
 import cloudComplete from "../assets/images/cloud-complete.png";
 import futureCloud from "../assets/images/cloud-futur.png";
+import NavBar from "../components/NavBar";
 
 const Home: React.FC = () => {
+  // Récupérer les infos de l'utilisateur du localStorage
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
   return (
     <div
       className="home-container"
       style={{ backgroundImage: `url(${bgClouds})` }}
     >
       <div className="letter-content">
-        <h1 className="main-title">À travers le temps je t'écrirais</h1>
+        <h1 className="main-title">A travers le temps je t'écrirais</h1>
 
         <div className="letter-section">
           <Link to="/letter/future" className="link-text">
@@ -27,6 +31,7 @@ const Home: React.FC = () => {
             <img src={cloudComplete} alt="" className="cloud-image" />
           </Link>
         </div>
+        <NavBar />
       </div>
     </div>
   );

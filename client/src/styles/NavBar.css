@@ -18,6 +18,51 @@
   font-family: "Poppins", sans-serif;
   color: #ffffff;
   font-size: 16px;
+  position: relative;
+  text-decoration: none;
+  padding: 5px;
+}
+
+.navbar-text::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 1px;
+  background: #ffffff;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: width 0.3s ease;
+}
+
+.navbar-text:hover::after,
+.navbar-text:active::after,
+.navbar-text.selected::after {
+  width: 100%;
+}
+
+.navbar-link {
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  padding: 5px;
+}
+
+.navbar-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 1px;
+  background: #ffffff;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: width 0.3s ease;
+}
+
+.navbar-link:hover::after,
+.navbar-link:active::after {
+  width: 100%;
 }
 
 /* Tablette et Desktop */
@@ -30,15 +75,4 @@
   .navbar-text {
     font-size: 19px;
   }
-}
-
-/* Ajouter ces styles */
-.navbar-link {
-  text-decoration: none;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
-}
-
-.navbar-link:hover {
-  opacity: 0.8;
 }

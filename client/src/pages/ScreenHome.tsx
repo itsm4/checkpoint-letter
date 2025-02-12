@@ -19,14 +19,22 @@ const ScreenHome: React.FC = () => {
           <h1 className="main-title">À travers le temps je t'écrirais</h1>
 
           <div className="letter-section">
-            <button type="button" className="link-text" onClick={() => setModalType("login")}>
+            <button
+              type="button"
+              className="link-text"
+              onClick={() => setModalType("login")}
+            >
               <h2 className="recipient-title">Connexion</h2>
               <img src={futureCloud} alt="" className="cloud-image" />
             </button>
           </div>
 
           <div className="letter-section">
-            <button type="button" className="link-text" onClick={() => setModalType("signup")}>
+            <button
+              type="button"
+              className="link-text"
+              onClick={() => setModalType("signup")}
+            >
               <h2 className="recipient-prompt">S'inscrire</h2>
               <img src={cloudComplete} alt="" className="cloud-image" />
             </button>
