@@ -1,0 +1,44 @@
+.navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  padding: 0 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+}
+
+.navbar-text {
+  font-family: "Poppins", sans-serif;
+  color: #ffffff;
+  font-size: 16px;
+}
+
+/* Tablette et Desktop */
+@media (min-width: 768px) {
+  .navbar {
+    padding: 0 32px;
+    height: 72px;
+  }
+
+  .navbar-text {
+    font-size: 19px;
+  }
+}
+
+/* Ajouter ces styles */
+.navbar-link {
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.navbar-link:hover {
+  opacity: 0.8;
+}

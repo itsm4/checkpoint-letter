@@ -1,0 +1,118 @@
+/* On peut réutiliser la plupart des styles de Home.css */
+.home-container {
+  min-height: 100dvh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  position: relative;
+}
+
+.letter-content {
+  width: 100%;
+  min-height: calc(100dvh - 32px);
+  background: transparent;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.main-title {
+  font-family: "Mea Culpa", cursive;
+  font-size: 36px;
+  color: #ffffff;
+  text-align: center;
+  margin-top: 32px;
+  margin-bottom: 8px;
+}
+
+.letter-section {
+  flex: 0.5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 4px 0;
+  position: relative;
+}
+
+.recipient-title,
+.recipient-prompt {
+  font-family: "Mea Culpa", cursive;
+  font-size: 32px;
+  color: #ffffff;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.link-text {
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.link-text:hover {
+  transform: scale(1.05);
+}
+
+.link-text:active {
+  transform: scale(0.98);
+}
+
+.cloud-image {
+  position: absolute;
+  top: -40px;
+  width: 280px;
+  height: auto;
+  pointer-events: none;
+  z-index: 1;
+  background: none;
+}
+
+/* Tablette et Desktop */
+@media (min-width: 768px) {
+  .home-container {
+    padding: 32px;
+  }
+
+  .letter-content {
+    max-width: 600px;
+    min-height: 80vh;
+    padding: 48px 32px;
+  }
+
+  .main-title {
+    font-size: 56px;
+    margin-top: 48px;
+    margin-bottom: 24px;
+  }
+
+  .letter-section {
+    margin: 8px 0;
+  }
+
+  .recipient-title,
+  .recipient-prompt {
+    font-size: 48px;
+  }
+
+  .cloud-image {
+    width: 320px;
+    top: -60px;
+  }
+}
