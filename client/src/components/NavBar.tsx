@@ -7,15 +7,15 @@ const NavBar: React.FC = () => {
 
   return (
     <nav className="navbar">
-      <Link 
-        to="/home" 
+      <Link
+        to="/home"
         className={`navbar-text ${location.pathname === "/home" ? "selected" : ""}`}
       >
         À toi
       </Link>
-  
-      <Link 
-        to="/profile" 
+
+      <Link
+        to="/profile"
         className={`navbar-text ${location.pathname === "/profile" ? "selected" : ""}`}
       >
         Profil
