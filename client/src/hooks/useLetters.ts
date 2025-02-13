@@ -27,12 +27,39 @@ export const useLetters = () => {
     localStorage.setItem("letters", JSON.stringify(updatedLetters));
   };
 
-  const saveDraft = (letter: Omit<Letter, "id" | "writeDate">) => {
-    addLetter({ ...letter, status: "draft" });
+  const saveDraft = (letter: { id?: string; title: string; content: string; deliveryDate: string; status: string }) => {
+    if (letter.id) {
+      // Mise à jour d'une lettre existante
+      const updatedLetters = letters.map(l => 
+        l.id === letter.id 
+          ? { 
+              ...l, 
+              title: letter.title,
+              content: letter.content,
+              deliveryDate: letter.deliveryDate,
+              writeDate: new Date().toISOString()
+            } 
+          : l
+      );
+      setLetters(updatedLetters);
+      localStorage.setItem("letters", JSON.stringify(updatedLetters));
+    } else {
+      // Nouvelle lettre
+      addLetter({ ...letter, status: "draft" });
+    }
   };
 
-  const sendLetter = (letter: Omit<Letter, "id" | "writeDate">) => {
-    addLetter({ ...letter, status: "scheduled" });
+  const sendLetter = (letter: Letter) => {
+    // S'assurer que le statut est "scheduled"
+    const letterToAdd = {
+      ...letter,
+      status: "scheduled" as const,
+      writeDate: new Date().toISOString()
+    };
+    
+    const updatedLetters = [...letters, letterToAdd];
+    setLetters(updatedLetters);
+    localStorage.setItem("letters", JSON.stringify(updatedLetters));
   };
 
   const updateLetter = (id: string, updates: Partial<Letter>) => {

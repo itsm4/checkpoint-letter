@@ -1,0 +1,84 @@
+.email-input {
+  width: calc(100% - 24px);
+  padding: 12px;
+  margin: 16px 0;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.email-input:focus {
+  border-color: var(--pink-300);
+  outline: none;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.modal-actions button {
+  padding: 8px 24px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.confirm-btn {
+  background: var(--pink-solid);
+  color: white;
+}
+
+.confirm-btn:hover {
+  background: var(--pink-300);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
+}
+
+.modal-actions .cancel-btn {
+  background: rgba(0, 0, 0, 0.1);
+  color: #000000;
+}
+
+.modal-actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.modal-content h2 {
+  margin-bottom: 16px;
+  color: #000000;
+}
+
+.modal-content p {
+  color: #666;
+  margin-bottom: 16px;
+}
