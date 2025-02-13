@@ -1,6 +1,11 @@
 import type React from "react";
 import NavBar from "../components/NavBar";
 import "../styles/Profile.css";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import DeleteConfirmation from "../components/DeleteConfirmation";
+import ReadLetterModal from "../components/ReadLetterModal";
+import { useLetters } from "../hooks/useLetters";
 
 interface Letter {
   id: string;
@@ -10,29 +15,56 @@ interface Letter {
 }
 
 const Profile: React.FC = () => {
-  const sentLetters: Letter[] = [
-    {
-      id: "1",
-      title: "À mon futur",
-      date: "12 Jan 2024",
-      preview: "Le temps passe si vite...",
-    },
-    {
-      id: "2",
-      title: "À Sophie",
-      date: "27 Sep 2023",
-      preview: "Je voulais te dire...",
-    },
-  ];
+  const { sentLetters, drafts, deleteLetter, updateLetter } = useLetters();
+  const navigate = useNavigate();
+  const [letterToDelete, setLetterToDelete] = useState<string | null>(null);
+  const [letterToRead, setLetterToRead] = useState<Letter | null>(null);
 
-  const draftLetters: Letter[] = [
-    {
-      id: "3",
-      title: "Brouillon",
-      date: "15 Jan 2024",
-      preview: "En cours d'écriture...",
-    },
-  ];
+  const handleRead = (letter: Letter) => {
+    setLetterToRead(letter);
+  };
+
+  const handleEdit = (letter: Letter) => {
+    // Naviguer vers la page d'édition
+    navigate(`/edit/${letter.id}`);
+  };
+
+  const handleDownload = (letter: Letter) => {
+    // Créer un fichier texte à télécharger
+    const content = `${letter.title}\n\nÉcrit le: ${new Date(letter.writeDate).toLocaleDateString()}\nÀ ouvrir le: ${new Date(letter.deliveryDate).toLocaleDateString()}\n\n${letter.content}`;
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${letter.title}.txt`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
+  const handleDeleteClick = (letterId: string) => {
+    setLetterToDelete(letterId);
+  };
+
+  const handleConfirmDelete = () => {
+    if (letterToDelete) {
+      deleteLetter(letterToDelete);
+      setLetterToDelete(null);
+    }
+  };
+
+  // Cacher/montrer la navbar en fonction de l'état de la modale
+  useEffect(() => {
+    const navbar = document.querySelector(".navbar");
+    if (navbar) {
+      navbar.style.display = letterToRead ? "none" : "flex";
+    }
+
+    return () => {
+      if (navbar) {
+        navbar.style.display = "flex";
+      }
+    };
+  }, [letterToRead]);
 
   return (
     <div className="profile-container">
@@ -57,34 +89,95 @@ const Profile: React.FC = () => {
           {sentLetters.map((letter) => (
             <div key={letter.id} className="letter-card">
               <h3>{letter.title}</h3>
-              <p className="letter-date">{letter.date}</p>
-              <p className="letter-preview">{letter.preview}</p>
+              <p className="letter-date">
+                À ouvrir le:{" "}
+                {new Date(letter.deliveryDate).toLocaleDateString()}
+              </p>
+              <p className="letter-preview">
+                {letter.content.substring(0, 100)}...
+              </p>
               <div className="letter-actions">
-                <button type="button">Récupérer</button>
-                <button type="button">Modifier</button>
-                <button type="button">Supprimer</button>
+                <button type="button" onClick={() => handleRead(letter)}>
+                  Lire
+                </button>
+                <button type="button" onClick={() => handleEdit(letter)}>
+                  Modifier
+                </button>
+                <button type="button" onClick={() => handleDownload(letter)}>
+                  Télécharger
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteClick(letter.id)}
+                >
+                  Supprimer
+                </button>
               </div>
             </div>
           ))}
+          {sentLetters.length === 0 && (
+            <p className="empty-state">Aucune lettre envoyée pour le moment</p>
+          )}
         </div>
       </section>
 
       <section className="drafts-section">
         <h2>Mes lettres à envoyer</h2>
         <div className="letters-grid">
-          {draftLetters.map((letter) => (
+          {drafts.map((letter) => (
             <div key={letter.id} className="letter-card draft">
               <h3>{letter.title}</h3>
-              <p className="letter-date">{letter.date}</p>
-              <p className="letter-preview">{letter.preview}</p>
+              <p className="letter-date">
+                Dernière modification:{" "}
+                {new Date(letter.writeDate).toLocaleDateString()}
+              </p>
+              <p className="letter-preview">
+                {letter.content.substring(0, 100)}...
+              </p>
               <div className="letter-actions">
-                <button type="button">Continuer</button>
-                <button type="button">Supprimer</button>
+                <button type="button" onClick={() => handleRead(letter)}>
+                  Lire
+                </button>
+                <button type="button" onClick={() => handleEdit(letter)}>
+                  Modifier
+                </button>
+                <button type="button" onClick={() => handleDownload(letter)}>
+                  Télécharger
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    updateLetter(letter.id, { status: "scheduled" })
+                  }
+                >
+                  Envoyer
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteClick(letter.id)}
+                >
+                  Supprimer
+                </button>
               </div>
             </div>
           ))}
+          {drafts.length === 0 && (
+            <p className="empty-state">Aucun brouillon pour le moment</p>
+          )}
         </div>
       </section>
+
+      <DeleteConfirmation
+        isOpen={letterToDelete !== null}
+        onClose={() => setLetterToDelete(null)}
+        onConfirm={handleConfirmDelete}
+      />
+
+      <ReadLetterModal
+        isOpen={letterToRead !== null}
+        onClose={() => setLetterToRead(null)}
+        letter={letterToRead!}
+      />
 
       <NavBar />
     </div>

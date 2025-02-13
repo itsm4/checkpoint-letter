@@ -1,0 +1,107 @@
+/* Bloquer le scroll du body quand la modale est ouverte */
+body.modal-open {
+  overflow: hidden;
+}
+
+.read-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  cursor: pointer; /* Pour indiquer qu'on peut cliquer pour fermer */
+  overflow-y: auto; /* Permettre le scroll sur l'overlay si nécessaire */
+  -webkit-overflow-scrolling: touch; /* Pour un scroll fluide sur iOS */
+}
+
+.read-modal-content {
+  width: 100%;
+  max-width: 595px; /* Largeur A4 */
+  min-height: 842px; /* Minimum hauteur A4 */
+  height: auto; /* Permettre l'extension si plus de contenu */
+  background: #ffffff;
+  color: #000000;
+  position: relative;
+  padding: 60px 40px;
+  border-radius: 4px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  cursor: default; /* Remettre le curseur par défaut */
+  margin: auto; /* Centrer verticalement si contenu plus petit que l'écran */
+  /* Effet de papier ligné */
+  background-image: linear-gradient(#e5e5e5 1px, transparent 1px);
+  background-size: 100% 32px;
+  background-position: 0 28px;
+}
+
+.close-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 32px;
+  cursor: pointer;
+  padding: 8px;
+  line-height: 1;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.close-button:hover {
+  opacity: 1;
+}
+
+.letter-container {
+  max-width: 100%;
+}
+
+.letter-container h2 {
+  font-family: "Mea Culpa", cursive;
+  font-size: 32px;
+  margin-bottom: 32px;
+  text-align: center;
+  color: #000000;
+}
+
+.letter-dates {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 48px;
+  text-align: right;
+  font-style: italic;
+}
+
+.letter-body {
+  font-size: 24px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  color: #000000;
+  font-family: "Mea Culpa", cursive;
+}
+
+@media (max-width: 768px) {
+  .read-modal-overlay {
+    padding: 12px;
+  }
+
+  .read-modal-content {
+    padding: 40px 20px;
+    height: 80vh; /* Hauteur adaptative sur mobile */
+  }
+
+  .letter-container h2 {
+    font-size: 28px;
+  }
+
+  .letter-body {
+    font-size: 20px;
+    line-height: 32px;
+  }
+}

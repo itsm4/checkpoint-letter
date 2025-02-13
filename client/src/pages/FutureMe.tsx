@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../styles/FutureMe.css";
 import NavBar from "../components/NavBar";
+import { useLetters } from "../hooks/useLetters";
 
 interface FutureLetter {
   id: string;
@@ -16,27 +17,42 @@ const FutureMe: React.FC = () => {
     null,
   );
   const [isWriting, setIsWriting] = useState(false);
-
-  const futureLetters: FutureLetter[] = [
-    {
-      id: "1",
-      title: "Moi dans 5 ans",
-      date: "Jan 12, 2024",
-      deliveryDate: "Jan 12, 2029",
-      preview: "Je me demande où je serai dans 5 ans...",
-    },
-    {
-      id: "2",
-      title: "Pour mes 30 ans",
-      date: "Jan 15, 2024",
-      deliveryDate: "Sep 20, 2026",
-      preview: "Cher moi du futur, aujourd'hui j'ai décidé...",
-    },
-  ];
+  const { letters, saveDraft, sendLetter } = useLetters();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [deliveryDate, setDeliveryDate] = useState("");
 
   const handleNewLetter = () => {
     setIsWriting(true);
     setSelectedLetter(null);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    sendLetter({
+      title,
+      content,
+      deliveryDate,
+      status: "scheduled",
+    });
+    resetForm();
+  };
+
+  const handleSaveDraft = () => {
+    saveDraft({
+      title,
+      content,
+      deliveryDate,
+      status: "draft",
+    });
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setIsWriting(false);
+    setTitle("");
+    setContent("");
+    setDeliveryDate("");
   };
 
   return (
@@ -50,44 +66,57 @@ const FutureMe: React.FC = () => {
           + Nouvelle lettre
         </button>
 
-        {futureLetters.map((letter) => (
-          <button
-            key={letter.id}
-            type="button"
-            className="letter-item"
-            onClick={() => setSelectedLetter(letter)}
-            onKeyDown={(e) => e.key === "Enter" && setSelectedLetter(letter)}
-          >
-            <div className="letter-info">
-              <h3>{letter.title}</h3>
-              <p className="letter-preview">{letter.preview}</p>
-              <div className="letter-metadata">
-                Écrite le: {letter.date} • À ouvrir le: {letter.deliveryDate}
-              </div>
-            </div>
-          </button>
+        {letters.map((letter) => (
+          <div key={letter.id} className="letter-item">
+            <h3>{letter.title}</h3>
+            <p>
+              À ouvrir le: {new Date(letter.deliveryDate).toLocaleDateString()}
+            </p>
+            <p className="letter-preview">
+              {letter.content.substring(0, 100)}...
+            </p>
+          </div>
         ))}
       </div>
 
       <div className="letter-editor">
         {isWriting ? (
-          <div className="writing-area">
+          <form onSubmit={handleSubmit} className="writing-area">
             <input
               type="text"
               className="letter-title-input"
               placeholder="Titre de votre lettre"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
             />
             <div className="delivery-date">
               <label htmlFor="delivery-date">À ouvrir le:</label>
-              <input type="date" id="delivery-date" />
+              <input
+                type="date"
+                id="delivery-date"
+                value={deliveryDate}
+                onChange={(e) => setDeliveryDate(e.target.value)}
+                required
+              />
             </div>
             <textarea
               className="letter-content-input"
               placeholder="Cher moi du futur..."
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              required
             />
             <div className="editor-actions">
-              <button type="button" className="save-btn">
+              <button type="submit" className="save-btn">
                 Envoyer dans le futur
+              </button>
+              <button
+                type="button"
+                className="draft-btn"
+                onClick={handleSaveDraft}
+              >
+                Sauvegarder
               </button>
               <button
                 type="button"
@@ -97,7 +126,7 @@ const FutureMe: React.FC = () => {
                 Annuler
               </button>
             </div>
-          </div>
+          </form>
         ) : selectedLetter ? (
           <div className="letter-content">
             <h2>{selectedLetter.title}</h2>
