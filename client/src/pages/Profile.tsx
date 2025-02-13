@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteConfirmation from "../components/DeleteConfirmation";
 import ReadLetterModal from "../components/ReadLetterModal";
 import { useLetters } from "../hooks/useLetters";
+import { FiEye, FiEdit2, FiDownload, FiTrash2, FiSend } from "react-icons/fi";
 
 interface Letter {
   id: string;
@@ -97,20 +98,17 @@ const Profile: React.FC = () => {
                 {letter.content.substring(0, 100)}...
               </p>
               <div className="letter-actions">
-                <button type="button" onClick={() => handleRead(letter)}>
-                  Lire
+                <button type="button" onClick={() => handleRead(letter)} title="Lire">
+                  <FiEye />
                 </button>
-                <button type="button" onClick={() => handleEdit(letter)}>
-                  Modifier
+                <button type="button" onClick={() => handleEdit(letter)} title="Modifier">
+                  <FiEdit2 />
                 </button>
-                <button type="button" onClick={() => handleDownload(letter)}>
-                  Télécharger
+                <button type="button" onClick={() => handleDownload(letter)} title="Télécharger">
+                  <FiDownload />
                 </button>
-                <button
-                  type="button"
-                  onClick={() => handleDeleteClick(letter.id)}
-                >
-                  Supprimer
+                <button type="button" onClick={() => handleDeleteClick(letter.id)} title="Supprimer">
+                  <FiTrash2 />
                 </button>
               </div>
             </div>
@@ -135,28 +133,20 @@ const Profile: React.FC = () => {
                 {letter.content.substring(0, 100)}...
               </p>
               <div className="letter-actions">
-                <button type="button" onClick={() => handleRead(letter)}>
-                  Lire
+                <button type="button" onClick={() => handleRead(letter)} title="Lire">
+                  <FiEye />
                 </button>
-                <button type="button" onClick={() => handleEdit(letter)}>
-                  Modifier
+                <button type="button" onClick={() => handleEdit(letter)} title="Modifier">
+                  <FiEdit2 />
                 </button>
-                <button type="button" onClick={() => handleDownload(letter)}>
-                  Télécharger
+                <button type="button" onClick={() => handleDownload(letter)} title="Télécharger">
+                  <FiDownload />
                 </button>
-                <button
-                  type="button"
-                  onClick={() =>
-                    updateLetter(letter.id, { status: "scheduled" })
-                  }
-                >
-                  Envoyer
+                <button type="button" onClick={() => updateLetter(letter.id, { status: "scheduled" })} title="Envoyer">
+                  <FiSend />
                 </button>
-                <button
-                  type="button"
-                  onClick={() => handleDeleteClick(letter.id)}
-                >
-                  Supprimer
+                <button type="button" onClick={() => handleDeleteClick(letter.id)} title="Supprimer">
+                  <FiTrash2 />
                 </button>
               </div>
             </div>

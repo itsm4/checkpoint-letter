@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../styles/FutureMe.css";
+import { FiPlus, FiSave, FiSend, FiX } from "react-icons/fi";
 import NavBar from "../components/NavBar";
 import { useLetters } from "../hooks/useLetters";
 
@@ -63,7 +64,7 @@ const FutureMe: React.FC = () => {
           className="new-letter-btn"
           onClick={handleNewLetter}
         >
-          + Nouvelle lettre
+          <FiPlus /> <span>Nouvelle lettre</span>
         </button>
 
         {letters.map((letter) => (
@@ -108,22 +109,28 @@ const FutureMe: React.FC = () => {
               required
             />
             <div className="editor-actions">
-              <button type="submit" className="save-btn">
-                Envoyer dans le futur
+              <button
+                type="submit"
+                className="save-btn"
+                title="Envoyer dans le futur"
+              >
+                <FiSend />
               </button>
               <button
                 type="button"
                 className="draft-btn"
+                title="Sauvegarder"
                 onClick={handleSaveDraft}
               >
-                Sauvegarder
+                <FiSave />
               </button>
               <button
                 type="button"
                 className="cancel-btn"
+                title="Annuler"
                 onClick={() => setIsWriting(false)}
               >
-                Annuler
+                <FiX />
               </button>
             </div>
           </form>

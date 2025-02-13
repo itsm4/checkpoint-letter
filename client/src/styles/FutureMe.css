@@ -26,6 +26,9 @@
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .new-letter-btn:hover {
@@ -308,4 +311,17 @@ option[value=""][disabled] {
 .recipient-selector select:focus,
 .delivery-date input:focus {
   border-bottom-color: var(--pink-solid);
+}
+
+.editor-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 20px;
+}
+
+.editor-actions button svg {
+  width: 1.2em;
+  height: 1.2em;
 }
