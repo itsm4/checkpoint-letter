@@ -26,8 +26,16 @@ const Profile: React.FC = () => {
   };
 
   const handleEdit = (letter: Letter) => {
-    // Naviguer vers la page d'édition
-    navigate(`/edit/${letter.id}`);
+    navigate('/future-me', { 
+      state: { 
+        editingLetter: {
+          id: letter.id,
+          title: letter.title,
+          content: letter.content,
+          deliveryDate: letter.deliveryDate
+        }
+      }
+    });
   };
 
   const handleDownload = (letter: Letter) => {
@@ -53,19 +61,20 @@ const Profile: React.FC = () => {
     }
   };
 
-  // Cacher/montrer la navbar en fonction de l'état de la modale
+  // Mise à jour de l'effet pour gérer les deux modales
   useEffect(() => {
     const navbar = document.querySelector(".navbar");
     if (navbar) {
-      navbar.style.display = letterToRead ? "none" : "flex";
+      // Cacher la navbar si l'une des modales est ouverte
+      navbar.style.display = (letterToRead || letterToDelete) ? "none" : "flex";
     }
-
+    
     return () => {
       if (navbar) {
         navbar.style.display = "flex";
       }
     };
-  }, [letterToRead]);
+  }, [letterToRead, letterToDelete]); // Dépendance aux deux états
 
   return (
     <div className="profile-container">

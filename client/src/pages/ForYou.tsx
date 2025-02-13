@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../styles/ForYou.css";
+import { FiPlus, FiSave, FiSend, FiX } from "react-icons/fi";
 import NavBar from "../components/NavBar";
 
 interface Letter {
@@ -85,7 +86,7 @@ const ForYou: React.FC = () => {
               </button>
             ))}
             <button type="button" className="add-recipient-btn">
-              + Nouveau destinataire
+              <FiPlus /> <span>Nouveau destinataire</span>
             </button>
           </div>
         </div>
@@ -97,7 +98,7 @@ const ForYou: React.FC = () => {
             className="new-letter-btn"
             onClick={handleNewLetter}
           >
-            + Nouvelle lettre
+            <FiPlus /> <span>Nouvelle lettre</span>
           </button>
 
           {letters.map((letter) => (
@@ -144,15 +145,16 @@ const ForYou: React.FC = () => {
               placeholder="Cher(e)..."
             />
             <div className="editor-actions">
-              <button type="button" className="save-btn">
-                Envoyer
+              <button type="button" className="save-btn" title="Envoyer">
+                <FiSend />
               </button>
               <button
                 type="button"
                 className="cancel-btn"
                 onClick={() => setIsWriting(false)}
+                title="Annuler"
               >
-                Annuler
+                <FiX />
               </button>
             </div>
           </div>

@@ -172,34 +172,43 @@ option[value=""][disabled] {
   justify-content: flex-end;
 }
 
-.save-btn,
-.cancel-btn {
+.editor-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 8px 24px;
   border: none;
   border-radius: 20px;
+  color: white;
+  font-size: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 16px;
 }
 
+/* Bouton Envoyer */
 .save-btn {
   background: var(--pink-solid);
-  color: white;
 }
 
-.save-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
+/* Bouton Sauvegarder */
+.draft-btn {
+  background: var(--pink-300);
 }
 
+/* Bouton Annuler */
 .cancel-btn {
-  background: rgba(0, 0, 0, 0.1);
-  color: #000000;
+  background: rgba(0, 0, 0, 0.2);
 }
 
-.cancel-btn:hover {
+/* Effets hover communs */
+.editor-actions button:hover {
   transform: translateY(-2px);
-  background: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.editor-actions button svg {
+  width: 1.2em;
+  height: 1.2em;
 }
 
 .empty-state {
@@ -311,17 +320,4 @@ option[value=""][disabled] {
 .recipient-selector select:focus,
 .delivery-date input:focus {
   border-bottom-color: var(--pink-solid);
-}
-
-.editor-actions button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 20px;
-}
-
-.editor-actions button svg {
-  width: 1.2em;
-  height: 1.2em;
 }

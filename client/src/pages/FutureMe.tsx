@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../styles/FutureMe.css";
 import { FiPlus, FiSave, FiSend, FiX } from "react-icons/fi";
+import { useLocation } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import { useLetters } from "../hooks/useLetters";
 
@@ -14,14 +15,19 @@ interface FutureLetter {
 }
 
 const FutureMe: React.FC = () => {
+  const location = useLocation();
+  const editingLetter = location.state?.editingLetter;
+
   const [selectedLetter, setSelectedLetter] = useState<FutureLetter | null>(
     null,
   );
-  const [isWriting, setIsWriting] = useState(false);
+  const [isWriting, setIsWriting] = useState(!!editingLetter);
   const { letters, saveDraft, sendLetter } = useLetters();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [deliveryDate, setDeliveryDate] = useState("");
+  const [title, setTitle] = useState(editingLetter?.title || "");
+  const [content, setContent] = useState(editingLetter?.content || "");
+  const [deliveryDate, setDeliveryDate] = useState(
+    editingLetter?.deliveryDate?.split("T")[0] || "",
+  );
 
   const handleNewLetter = () => {
     setIsWriting(true);

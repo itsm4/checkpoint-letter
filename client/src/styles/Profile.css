@@ -85,13 +85,27 @@ h2 {
 }
 
 .letter-card {
-  background: var(--pink-100);
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
-  padding: 16px;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
 }
 
 .letter-card:hover {
-  background: var(--pink-200);
+  background: var(--pink-100);
+  border-color: var(--pink-300);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.letter-card.draft {
+  border: 1px dashed transparent;
+}
+
+.letter-card.draft:hover {
+  background: var(--pink-100);
+  border-color: var(--pink-300);
 }
 
 .letter-card h3 {
@@ -135,10 +149,6 @@ h2 {
 
 .letter-actions button:hover {
   background: var(--pink-300);
-}
-
-.draft {
-  border: 1px solid var(--pink-300);
 }
 
 /* Styles pour les écrans plus grands */
