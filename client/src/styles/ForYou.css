@@ -1,0 +1,226 @@
+@import "./shared-colors.css";
+
+.for-you-container {
+  min-height: 100dvh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.8);
+  color: #ffffff;
+  position: relative;
+}
+
+.letters-list {
+  padding: 16px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.recipients-section,
+.letters-section {
+  margin-bottom: 32px;
+}
+
+h2 {
+  font-family: "Mea Culpa", cursive;
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.recipients-grid {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 4px;
+  margin-bottom: 24px;
+}
+
+.recipient-card {
+  background: none;
+  border: none;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.3s ease;
+  padding: 12px;
+  min-width: 80px;
+}
+
+.recipient-card:hover {
+  background: none;
+  transform: scale(1.05);
+}
+
+.recipient-card.selected {
+  background: none;
+  position: relative;
+}
+
+.recipient-initial {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-family: "Mea Culpa", cursive;
+  transition: all 0.3s ease;
+}
+
+.recipient-card:hover .recipient-initial {
+  background: var(--pink-300);
+  transform: scale(1.1);
+}
+
+.recipient-card.selected .recipient-initial {
+  background: var(--pink-400);
+}
+
+.recipient-card:hover .recipient-info h3 {
+  color: var(--pink-300);
+}
+
+.recipient-card.selected .recipient-info h3 {
+  color: var(--pink-400);
+}
+
+.recipient-info h3 {
+  font-size: 14px;
+  margin: 0;
+  font-weight: normal;
+  text-align: center;
+}
+
+.recipient-info p {
+  display: none;
+}
+
+.add-recipient-btn,
+.new-letter-btn {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-recipient-btn:hover,
+.new-letter-btn:hover {
+  border-color: var(--pink-300);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.letter-item {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  color: #ffffff;
+  padding: 16px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.letter-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.letter-info h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+  font-weight: normal;
+}
+
+.letter-preview {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8px;
+}
+
+.letter-metadata {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.letter-editor {
+  flex: 1;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  margin: 0 16px 16px;
+  border-radius: 12px;
+}
+
+.writing-area {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.recipient-selector,
+.letter-title-input {
+  font-family: "Mea Culpa", cursive;
+  font-size: 24px;
+}
+
+.letter-content-input {
+  flex: 1;
+  min-height: 300px;
+  padding: 20px;
+  font-size: 16px;
+  line-height: 1.6;
+  border: none;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  resize: none;
+}
+
+.editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.save-btn,
+.cancel-btn {
+  padding: 8px 24px;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.save-btn {
+  background: var(--pink-solid);
+  color: white;
+}
+
+.cancel-btn {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 768px) {
+  .for-you-container {
+    flex-direction: row;
+  }
+
+  .letters-list {
+    width: 350px;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .letter-editor {
+    margin: 20px;
+    flex: 1;
+  }
+}

@@ -2,12 +2,16 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import "./styles/shared-colors.css"; // Ajouter cette ligne en haut du fichier
 
 /* ************************************************************************* */
 
 // Import the main app component
 import App from "./App";
+import ForYou from "./pages/ForYou";
+import FutureMe from "./pages/FutureMe";
 import Home from "./pages/Home";
+import Profile from "./pages/Profile";
 
 // Import additional components for new routes
 // Try creating these components in the "pages" folder
@@ -27,6 +31,18 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <Home />,
+  },
+  {
+    path: "/for-you",
+    element: <ForYou />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+  },
+  {
+    path: "/future-me",
+    element: <FutureMe />,
   },
   // Try adding a new route! For example, "/about" with an About component
 ]);

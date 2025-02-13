@@ -4,19 +4,23 @@ import "../styles/NavBar.css";
 
 const NavBar: React.FC = () => {
   const location = useLocation();
-  const isAuthenticated = location.pathname !== "/"; // Simple vérification, à remplacer par un vrai système d'auth
 
   return (
-    <div className="navbar">
-      <span className="navbar-text">A toi</span>
-      {isAuthenticated ? (
-        <Link to="/profile" className="navbar-text navbar-link">
-          [pseudo]
-        </Link>
-      ) : (
-        <span className="navbar-text">[pseudo]</span>
-      )}
-    </div>
+    <nav className="navbar">
+      <Link 
+        to="/home" 
+        className={`navbar-text ${location.pathname === "/home" ? "selected" : ""}`}
+      >
+        À toi
+      </Link>
+  
+      <Link 
+        to="/profile" 
+        className={`navbar-text ${location.pathname === "/profile" ? "selected" : ""}`}
+      >
+        Profil
+      </Link>
+    </nav>
   );
 };
 

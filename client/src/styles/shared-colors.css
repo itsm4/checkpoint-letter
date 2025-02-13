@@ -1,0 +1,9 @@
+:root {
+  --pink-100: rgba(255, 182, 193, 0.15); /* Plus visible */
+  --pink-200: rgba(255, 182, 193, 0.25); /* Plus intense */
+  --pink-300: rgba(255, 182, 193, 0.35); /* Plus prononcé */
+  --pink-400: rgba(255, 182, 193, 0.5); /* Semi-opaque */
+  --pink-500: rgba(255, 182, 193, 0.7); /* Plus visible */
+  --pink-600: rgba(255, 182, 193, 0.85); /* Très visible */
+  --pink-solid: rgb(255, 182, 193); /* Rose plein */
+}
