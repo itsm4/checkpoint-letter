@@ -1,3 +1,5 @@
+@import "./shared-animations.css";
+
 .home-container {
   min-height: 100dvh;
   width: 100%;
@@ -94,33 +96,54 @@
 /* Tablette et Desktop */
 @media (min-width: 768px) {
   .home-container {
-    padding: 32px;
-  }
-
-  .letter-content {
-    max-width: 600px;
-    min-height: 80vh;
-    padding: 48px 32px;
-  }
-
-  .main-title {
-    font-size: 56px;
-    margin-top: 48px;
-    margin-bottom: 24px;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 48px;
+    overflow: hidden; /* Pour éviter le scroll horizontal */
   }
 
   .letter-section {
-    margin: 8px 0;
+    flex: 0 1 auto;
+  }
+
+  /* Déplacer le nuage "À toi mon futur" à droite */
+  .letter-section:first-child {
+    order: 2; /* Change l'ordre pour le mettre à droite */
+    margin-right: 48px;
+  }
+
+  /* Déplacer le nuage "À toi" à gauche */
+  .letter-section:last-child {
+    order: 1; /* Change l'ordre pour le mettre à gauche */
+    margin-left: 48px;
+  }
+
+  .cloud-image {
+    width: 340px;
   }
 
   .recipient-title,
   .recipient-prompt {
-    font-size: 48px;
+    font-size: 56px;
+  }
+}
+
+/* Pour très grands écrans */
+@media (min-width: 1200px) {
+  .home-container {
+    padding: 0 96px;
+  }
+
+  .letter-section:first-child {
+    margin-right: 96px;
+  }
+
+  .letter-section:last-child {
+    margin-left: 96px;
   }
 
   .cloud-image {
-    width: 320px;
-    top: -60px;
+    width: 400px;
   }
 }
 
@@ -157,8 +180,11 @@
 
 .cloud-container {
   position: relative;
-  width: 280px;
-  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
 }
 
 .cloud-text {
@@ -180,4 +206,101 @@
   background: rgba(255, 192, 203, 0.4); /* Rose transparent */
   filter: blur(15px);
   border-radius: 50px;
+}
+
+/* Version desktop */
+@media (min-width: 768px) {
+  .cloud-container {
+    flex-direction: row;
+    justify-content: center;
+    gap: 40rem; /* Grand espacement entre les nuages */
+    padding: 0 48px;
+  }
+
+  .cloud-left {
+    transform: translateX(-50px); /* Décalage léger vers la gauche */
+  }
+
+  .cloud-right {
+    transform: translateX(20px); /* Décalage léger vers la droite */
+  }
+
+  .cloud-image {
+    width: 340px;
+  }
+
+  .cloud-text {
+    font-size: 56px;
+  }
+}
+
+/* Pour très grands écrans */
+@media (min-width: 1200px) {
+  .cloud-container {
+    gap: 180rem; /* Encore plus d'espacement sur grand écran */
+  }
+
+  .cloud-image {
+    width: 400px;
+  }
+
+  .cloud-left {
+    transform: translateX(-40px);
+  }
+
+  .cloud-right {
+    transform: translateX(40px);
+  }
+}
+
+/* Définition des animations */
+@keyframes floatLeft {
+  0%,
+  100% {
+    transform: translateX(-50px);
+  }
+  50% {
+    transform: translateX(-80px);
+  }
+}
+
+@keyframes floatRight {
+  0%,
+  100% {
+    transform: translateX(50px);
+  }
+  50% {
+    transform: translateX(80px);
+  }
+}
+
+/* Version desktop */
+@media (min-width: 768px) {
+  .home-container {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .letter-section:first-child {
+    animation: floatRight 20s linear infinite;
+  }
+
+  .letter-section:last-child {
+    animation: floatLeft 20s linear infinite;
+  }
+
+  .letter-section:hover {
+    animation-play-state: paused;
+  }
+}
+
+/* Pour très grands écrans */
+@media (min-width: 1200px) {
+  .letter-section:first-child {
+    margin-right: 96px;
+  }
+
+  .letter-section:last-child {
+    margin-left: 96px;
+  }
 }

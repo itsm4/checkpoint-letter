@@ -1,3 +1,5 @@
+@import "./shared-animations.css";
+
 /* On peut réutiliser la plupart des styles de Home.css */
 .home-container {
   min-height: 100dvh;
@@ -46,7 +48,7 @@
 .recipient-prompt {
   font-family: "Mea Culpa", cursive;
   font-size: 32px;
-  color: #ffffff;
+  color: #ffffff !important;
   text-align: center;
   position: relative;
   z-index: 2;
@@ -84,6 +86,38 @@
   background: none;
 }
 
+.cloud-text {
+  font-family: "Mea Culpa", cursive;
+  font-size: 48px;
+  color: #ffffff !important;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+.cloud-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+
+.cloud-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: "Mea Culpa", cursive;
+  font-size: 48px;
+  color: #ffffff !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  z-index: 2;
+}
+
 /* Tablette et Desktop */
 @media (min-width: 768px) {
   .home-container {
@@ -114,5 +148,30 @@
   .cloud-image {
     width: 320px;
     top: -60px;
+  }
+
+  .cloud-container {
+    overflow: hidden;
+  }
+
+  .link-text:nth-child(odd) {
+    animation: floatLeft 12s ease-in-out infinite;
+  }
+
+  .link-text:nth-child(even) {
+    animation: floatRight 12s ease-in-out infinite;
+  }
+
+  /* Décalage des animations pour un effet plus naturel */
+  .link-text:nth-child(2) {
+    animation-delay: -4s;
+  }
+
+  .link-text:nth-child(3) {
+    animation-delay: -8s;
+  }
+
+  .link-text:hover {
+    animation-play-state: paused;
   }
 }

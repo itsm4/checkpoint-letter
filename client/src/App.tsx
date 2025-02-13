@@ -11,8 +11,8 @@ function App() {
   // Afficher la NavBar partout sauf sur la page d'accueil (ScreenHome)
   const showNavBar =
     location.pathname !== "/" &&
-    location.pathname !== "/letter/future" &&
-    location.pathname !== "/letter/custom";
+    location.pathname !== "/future-me" &&
+    location.pathname !== "/for-you";
 
   return (
     <>

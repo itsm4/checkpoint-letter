@@ -12,12 +12,10 @@
 }
 
 .letters-list {
-  padding: 16px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  height: calc(100dvh - 60px);
-  scrollbar-width: none; /* Pour Firefox */
-  -ms-overflow-style: none; /* Pour Internet Explorer et Edge */
+  padding: 12px;
+  margin: 0;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 /* Pour Chrome, Safari et Opera */

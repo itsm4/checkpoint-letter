@@ -1,0 +1,24 @@
+/* Nouveau fichier pour partager les animations entre les pages */
+@keyframes floatLeft {
+  0% {
+    transform: translateX(200px);
+  }
+  50% {
+    transform: translateX(-200px);
+  }
+  100% {
+    transform: translateX(200px);
+  }
+}
+
+@keyframes floatRight {
+  0% {
+    transform: translateX(-200px);
+  }
+  50% {
+    transform: translateX(200px);
+  }
+  100% {
+    transform: translateX(-200px);
+  }
+} 

@@ -79,11 +79,11 @@
 /* Tablette et Desktop */
 @media (min-width: 768px) {
   .navbar {
-    height: 72px;
+    height: 25px;
     width: cover;
   }
 
   .navbar-text {
-    font-size: 20peuxpx;
+    font-size: 20px;
   }
 }

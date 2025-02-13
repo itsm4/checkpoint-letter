@@ -57,8 +57,11 @@ export const useLetters = () => {
       writeDate: new Date().toISOString()
     };
     
+    // Mettre à jour la liste des lettres
     const updatedLetters = [...letters, letterToAdd];
     setLetters(updatedLetters);
+    
+    // Sauvegarder dans le localStorage
     localStorage.setItem("letters", JSON.stringify(updatedLetters));
   };
 

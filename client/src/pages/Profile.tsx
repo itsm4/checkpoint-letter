@@ -2,11 +2,12 @@ import type React from "react";
 import NavBar from "../components/NavBar";
 import "../styles/Profile.css";
 import { useEffect, useState } from "react";
+import { FiDownload, FiEdit2, FiEye, FiSend, FiTrash2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import DeleteConfirmation from "../components/DeleteConfirmation";
 import ReadLetterModal from "../components/ReadLetterModal";
 import { useLetters } from "../hooks/useLetters";
-import { FiEye, FiEdit2, FiDownload, FiTrash2, FiSend } from "react-icons/fi";
+import AddRecipientModal from "../components/AddRecipientModal";
 
 interface Letter {
   id: string;
@@ -20,21 +21,22 @@ const Profile: React.FC = () => {
   const navigate = useNavigate();
   const [letterToDelete, setLetterToDelete] = useState<string | null>(null);
   const [letterToRead, setLetterToRead] = useState<Letter | null>(null);
+  const [showAddRecipientModal, setShowAddRecipientModal] = useState(false);
 
   const handleRead = (letter: Letter) => {
     setLetterToRead(letter);
   };
 
   const handleEdit = (letter: Letter) => {
-    navigate('/future-me', { 
-      state: { 
+    navigate("/future-me", {
+      state: {
         editingLetter: {
           id: letter.id,
           title: letter.title,
           content: letter.content,
-          deliveryDate: letter.deliveryDate
-        }
-      }
+          deliveryDate: letter.deliveryDate,
+        },
+      },
     });
   };
 
@@ -61,14 +63,27 @@ const Profile: React.FC = () => {
     }
   };
 
+  const handleLogout = () => {
+    // Nettoyer le localStorage
+    localStorage.removeItem("user");
+    localStorage.removeItem("letters");
+    // Rediriger vers la page d'accueil
+    navigate("/");
+  };
+
+  const handleAddRecipient = (name: string, email: string) => {
+    // Logique pour ajouter un destinataire
+    setShowAddRecipientModal(false);
+  };
+
   // Mise à jour de l'effet pour gérer les deux modales
   useEffect(() => {
     const navbar = document.querySelector(".navbar");
     if (navbar) {
       // Cacher la navbar si l'une des modales est ouverte
-      navbar.style.display = (letterToRead || letterToDelete) ? "none" : "flex";
+      navbar.style.display = letterToRead || letterToDelete ? "none" : "flex";
     }
-    
+
     return () => {
       if (navbar) {
         navbar.style.display = "flex";
@@ -78,7 +93,11 @@ const Profile: React.FC = () => {
 
   return (
     <div className="profile-container">
-      <button type="button" className="logout-button">
+      <button 
+        type="button" 
+        className="logout-button"
+        onClick={handleLogout}
+      >
         Déconnexion
       </button>
 
@@ -107,16 +126,32 @@ const Profile: React.FC = () => {
                 {letter.content.substring(0, 100)}...
               </p>
               <div className="letter-actions">
-                <button type="button" onClick={() => handleRead(letter)} title="Lire">
+                <button
+                  type="button"
+                  onClick={() => handleRead(letter)}
+                  title="Lire"
+                >
                   <FiEye />
                 </button>
-                <button type="button" onClick={() => handleEdit(letter)} title="Modifier">
+                <button
+                  type="button"
+                  onClick={() => handleEdit(letter)}
+                  title="Modifier"
+                >
                   <FiEdit2 />
                 </button>
-                <button type="button" onClick={() => handleDownload(letter)} title="Télécharger">
+                <button
+                  type="button"
+                  onClick={() => handleDownload(letter)}
+                  title="Télécharger"
+                >
                   <FiDownload />
                 </button>
-                <button type="button" onClick={() => handleDeleteClick(letter.id)} title="Supprimer">
+                <button
+                  type="button"
+                  onClick={() => handleDeleteClick(letter.id)}
+                  title="Supprimer"
+                >
                   <FiTrash2 />
                 </button>
               </div>
@@ -142,19 +177,41 @@ const Profile: React.FC = () => {
                 {letter.content.substring(0, 100)}...
               </p>
               <div className="letter-actions">
-                <button type="button" onClick={() => handleRead(letter)} title="Lire">
+                <button
+                  type="button"
+                  onClick={() => handleRead(letter)}
+                  title="Lire"
+                >
                   <FiEye />
                 </button>
-                <button type="button" onClick={() => handleEdit(letter)} title="Modifier">
+                <button
+                  type="button"
+                  onClick={() => handleEdit(letter)}
+                  title="Modifier"
+                >
                   <FiEdit2 />
                 </button>
-                <button type="button" onClick={() => handleDownload(letter)} title="Télécharger">
+                <button
+                  type="button"
+                  onClick={() => handleDownload(letter)}
+                  title="Télécharger"
+                >
                   <FiDownload />
                 </button>
-                <button type="button" onClick={() => updateLetter(letter.id, { status: "scheduled" })} title="Envoyer">
+                <button
+                  type="button"
+                  onClick={() =>
+                    updateLetter(letter.id, { status: "scheduled" })
+                  }
+                  title="Envoyer"
+                >
                   <FiSend />
                 </button>
-                <button type="button" onClick={() => handleDeleteClick(letter.id)} title="Supprimer">
+                <button
+                  type="button"
+                  onClick={() => handleDeleteClick(letter.id)}
+                  title="Supprimer"
+                >
                   <FiTrash2 />
                 </button>
               </div>
@@ -176,6 +233,12 @@ const Profile: React.FC = () => {
         isOpen={letterToRead !== null}
         onClose={() => setLetterToRead(null)}
         letter={letterToRead!}
+      />
+
+      <AddRecipientModal
+        isOpen={showAddRecipientModal}
+        onClose={() => setShowAddRecipientModal(false)}
+        onConfirm={handleAddRecipient}
       />
 
       <NavBar />

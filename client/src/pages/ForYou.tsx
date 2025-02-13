@@ -1,15 +1,19 @@
 import { useState } from "react";
 import "../styles/ForYou.css";
-import { FiPlus, FiSave, FiSend, FiX } from "react-icons/fi";
+import { FiFilter, FiPlus, FiSave, FiSend, FiX } from "react-icons/fi";
 import NavBar from "../components/NavBar";
+import SendConfirmationModal from "../components/SendConfirmationModal";
+import { useLetters } from "../hooks/useLetters";
 
 interface Letter {
   id: string;
   title: string;
-  date: string;
+  content: string;
+  writeDate: string;
+  deliveryDate: string;
   recipient: string;
   preview: string;
-  content?: string;
+  status: "draft" | "scheduled";
 }
 
 interface Recipient {
@@ -19,11 +23,21 @@ interface Recipient {
 }
 
 const ForYou: React.FC = () => {
+  const { drafts, sentLetters, deleteLetter, sendLetter, saveDraft } =
+    useLetters();
   const [selectedLetter, setSelectedLetter] = useState<Letter | null>(null);
   const [isWriting, setIsWriting] = useState(false);
   const [selectedRecipient, setSelectedRecipient] = useState<Recipient | null>(
     null,
   );
+  const [draftsSortOrder, setDraftsSortOrder] = useState<"asc" | "desc">(
+    "desc",
+  );
+  const [sentSortOrder, setSentSortOrder] = useState<"asc" | "desc">("desc");
+  const [showSendModal, setShowSendModal] = useState(false);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [recipientId, setRecipientId] = useState("");
 
   const recipients: Recipient[] = [
     {
@@ -48,7 +62,7 @@ const ForYou: React.FC = () => {
     },
     {
       id: "2",
-      title: "Je t'aime maman",
+      title: "Hello",
       date: "Dec 25, 2023",
       recipient: "Maman",
       preview: "Depuis toute petite, tu as toujours été là...",
@@ -60,9 +74,107 @@ const ForYou: React.FC = () => {
     setSelectedLetter(null);
   };
 
+  const toggleDraftsSort = () => {
+    setDraftsSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+  };
+
+  const toggleSentSort = () => {
+    setSentSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+  };
+
+  const sortLetters = (letters: any[], order: "asc" | "desc") => {
+    return [...letters].sort((a, b) => {
+      const dateA = new Date(a.writeDate).getTime();
+      const dateB = new Date(b.writeDate).getTime();
+      return order === "asc" ? dateA - dateB : dateB - dateA;
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setShowSendModal(true);
+  };
+
+  const handleConfirmSend = async (email: string) => {
+    const recipient = recipients.find((r) => r.id === recipientId);
+
+    const sentLetter = {
+      id: selectedLetter?.id || Date.now().toString(),
+      title,
+      content,
+      writeDate: new Date().toISOString(),
+      deliveryDate: new Date().toISOString(),
+      email,
+      recipient: recipient?.name || "",
+      status: "scheduled" as const,
+      preview: content.substring(0, 100),
+    };
+
+    if (selectedLetter?.id) {
+      deleteLetter(selectedLetter.id);
+    }
+
+    sendLetter(sentLetter);
+    setShowSendModal(false);
+    setIsWriting(false);
+    resetForm();
+  };
+
+  const handleSaveDraft = () => {
+    const recipient = recipients.find((r) => r.id === recipientId);
+
+    const draftLetter = {
+      id: selectedLetter?.id,
+      title,
+      content,
+      deliveryDate: new Date().toISOString(),
+      writeDate: new Date().toISOString(),
+      recipient: recipient?.name || "",
+      status: "draft" as const,
+      preview: content.substring(0, 100),
+    };
+
+    if (selectedLetter?.id) {
+      deleteLetter(selectedLetter.id);
+    }
+
+    saveDraft(draftLetter);
+
+    setIsWriting(false);
+    setSelectedLetter(null);
+    resetForm();
+  };
+
+  const handleEditDraft = (letter: Letter) => {
+    setIsWriting(true);
+    setTitle(letter.title);
+    setContent(letter.content || "");
+    const recipient = recipients.find((r) => r.name === letter.recipient);
+    if (recipient) {
+      setRecipientId(recipient.id);
+      setSelectedRecipient(recipient);
+    }
+    setSelectedLetter(letter);
+  };
+
+  const resetForm = () => {
+    setTitle("");
+    setContent("");
+    setRecipientId("");
+    setSelectedRecipient(null);
+  };
+
   return (
     <div className="for-you-container">
       <div className="letters-list">
+        <button
+          type="button"
+          className="new-letter-btn"
+          onClick={handleNewLetter}
+        >
+          <FiPlus /> <span>Nouvelle lettre</span>
+        </button>
+
         <div className="recipients-section">
           <h2>Destinataires</h2>
           <div className="recipients-grid">
@@ -72,9 +184,6 @@ const ForYou: React.FC = () => {
                 type="button"
                 className={`recipient-card ${selectedRecipient?.id === recipient.id ? "selected" : ""}`}
                 onClick={() => setSelectedRecipient(recipient)}
-                onKeyDown={(e) =>
-                  e.key === "Enter" && setSelectedRecipient(recipient)
-                }
               >
                 <div className="recipient-initial">
                   {recipient.name.charAt(0)}
@@ -92,41 +201,72 @@ const ForYou: React.FC = () => {
         </div>
 
         <div className="letters-section">
-          <h2>Mes lettres</h2>
-          <button
-            type="button"
-            className="new-letter-btn"
-            onClick={handleNewLetter}
-          >
-            <FiPlus /> <span>Nouvelle lettre</span>
-          </button>
-
-          {letters.map((letter) => (
+          <div className="section-header">
+            <h2>Brouillons</h2>
             <button
-              key={letter.id}
-              type="button"
-              className="letter-item"
-              onClick={() => setSelectedLetter(letter)}
-              onKeyDown={(e) => e.key === "Enter" && setSelectedLetter(letter)}
+              className="filter-btn"
+              onClick={toggleDraftsSort}
+              title={draftsSortOrder === "asc" ? "Plus récent" : "Plus ancien"}
             >
-              <div className="letter-info">
-                <h3>{letter.title}</h3>
-                <p className="letter-preview">{letter.preview}</p>
-                <div className="letter-metadata">
-                  Pour: {letter.recipient} • Écrite le: {letter.date}
-                </div>
-              </div>
+              <FiFilter />
             </button>
+          </div>
+          {sortLetters(drafts, draftsSortOrder).map((letter) => (
+            <div
+              key={letter.id}
+              className="letter-item"
+              onClick={() => handleEditDraft(letter)}
+            >
+              <h3>{letter.title}</h3>
+              <p>Pour: {letter.recipient}</p>
+              <p>
+                Enregistré le: {new Date(letter.writeDate).toLocaleDateString()}
+              </p>
+              <p className="letter-preview">
+                {letter.content.substring(0, 100)}...
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="letters-section">
+          <div className="section-header">
+            <h2>Messages envoyés</h2>
+            <button
+              className="filter-btn"
+              onClick={toggleSentSort}
+              title={sentSortOrder === "asc" ? "Plus récent" : "Plus ancien"}
+            >
+              <FiFilter />
+            </button>
+          </div>
+          {sortLetters(sentLetters, sentSortOrder).map((letter) => (
+            <div key={letter.id} className="letter-item">
+              <h3>{letter.title}</h3>
+              <p>Pour: {letter.recipient}</p>
+              <p>
+                À ouvrir le:{" "}
+                {new Date(letter.deliveryDate).toLocaleDateString()}
+              </p>
+              <p className="letter-preview">
+                {letter.content.substring(0, 100)}...
+              </p>
+            </div>
           ))}
         </div>
       </div>
 
       <div className="letter-editor">
         {isWriting ? (
-          <div className="writing-area">
+          <form onSubmit={handleSubmit} className="writing-area">
             <div className="recipient-selector">
               <label htmlFor="recipient-select">Pour:</label>
-              <select id="recipient-select">
+              <select
+                id="recipient-select"
+                value={recipientId}
+                onChange={(e) => setRecipientId(e.target.value)}
+                required
+              >
                 <option value="">Choisir un destinataire</option>
                 {recipients.map((r) => (
                   <option key={r.id} value={r.id}>
@@ -139,14 +279,28 @@ const ForYou: React.FC = () => {
               type="text"
               className="letter-title-input"
               placeholder="Titre de votre lettre"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
             />
             <textarea
               className="letter-content-input"
               placeholder="Cher(e)..."
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              required
             />
             <div className="editor-actions">
-              <button type="button" className="save-btn" title="Envoyer">
+              <button type="submit" className="save-btn" title="Envoyer">
                 <FiSend />
+              </button>
+              <button
+                type="button"
+                className="draft-btn"
+                title="Sauvegarder"
+                onClick={handleSaveDraft}
+              >
+                <FiSave />
               </button>
               <button
                 type="button"
@@ -157,7 +311,7 @@ const ForYou: React.FC = () => {
                 <FiX />
               </button>
             </div>
-          </div>
+          </form>
         ) : selectedLetter ? (
           <div className="letter-content">
             <h2>{selectedLetter.title}</h2>
@@ -175,7 +329,15 @@ const ForYou: React.FC = () => {
         )}
       </div>
 
-      <NavBar />
+      <SendConfirmationModal
+        isOpen={showSendModal}
+        onClose={() => setShowSendModal(false)}
+        onConfirm={handleConfirmSend}
+      />
+
+      <div className={`nav-container ${showSendModal ? "hidden" : ""}`}>
+        <NavBar />
+      </div>
     </div>
   );
 };
