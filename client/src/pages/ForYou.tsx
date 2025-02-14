@@ -55,6 +55,7 @@ const ForYou: React.FC = () => {
     },
   ]);
   const [letterToRead, setLetterToRead] = useState<Letter | null>(null);
+  const [deliveryDate, setDeliveryDate] = useState("");
 
   const letters: Letter[] = [
     {
@@ -107,7 +108,7 @@ const ForYou: React.FC = () => {
       title,
       content,
       writeDate: new Date().toISOString(),
-      deliveryDate: new Date().toISOString(),
+      deliveryDate: new Date(deliveryDate).toISOString(),
       email,
       recipient: recipient?.name || "",
       status: "scheduled" as const,
@@ -168,6 +169,7 @@ const ForYou: React.FC = () => {
     setContent("");
     setRecipientId("");
     setSelectedRecipient(null);
+    setDeliveryDate("");
   };
 
   const handleAddRecipient = (name: string, relation: string) => {
@@ -306,9 +308,19 @@ const ForYou: React.FC = () => {
               onChange={(e) => setTitle(e.target.value)}
               required
             />
+            <div className="delivery-date">
+              <label htmlFor="delivery-date">À envoyer le:</label>
+              <input
+                type="date"
+                id="delivery-date"
+                value={deliveryDate}
+                onChange={(e) => setDeliveryDate(e.target.value)}
+                required
+              />
+            </div>
             <textarea
               className="letter-content-input"
-              placeholder="Cher(e)..."
+              placeholder="À toi..."
               value={content}
               onChange={(e) => setContent(e.target.value)}
               required

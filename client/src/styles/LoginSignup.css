@@ -77,3 +77,26 @@
     font-size: 32px;
   }
 }
+
+.auth-error {
+  color: #ff4444;
+  background: rgba(255, 68, 68, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.auth-switch {
+  background: none;
+  border: none;
+  color: var(--pink-300);
+  margin-top: 16px;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+.auth-switch:hover {
+  color: var(--pink-400);
+}

@@ -205,7 +205,7 @@ const FutureMe: React.FC = () => {
             </div>
             <textarea
               className="letter-content-input"
-              placeholder="Cher moi du futur..."
+              placeholder="A toi mon futur..."
               value={content}
               onChange={(e) => setContent(e.target.value)}
               required

@@ -2,11 +2,11 @@
   "name": "@js-monorepo/server",
   "scripts": {
     "check-types": "tsc --noEmit",
-    "dev": "nodemon src/server.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "db:migrate": "tsx ./bin/migrate",
     "db:seed": "tsx ./bin/seed",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/index.js",
     "test": "jest --verbose"
   },
   "dependencies": {

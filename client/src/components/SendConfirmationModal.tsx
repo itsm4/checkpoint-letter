@@ -20,7 +20,7 @@ const SendConfirmationModal: React.FC<SendConfirmationModalProps> = ({
     <div className="modal-overlay">
       <div className="modal-content">
         <h2>Confirmer l'envoi</h2>
-        <p>Entrez votre adresse email pour recevoir votre lettre dans le futur</p>
+        <p>Entrez votre adresse email</p>
         
         <input
           type="email"
