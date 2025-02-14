@@ -9,6 +9,7 @@
   color: #ffffff;
   position: relative;
   overflow-x: hidden;
+  padding-bottom: 80px; /* Espace pour la navbar */
 }
 
 .letters-list {

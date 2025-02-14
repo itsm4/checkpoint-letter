@@ -1,16 +1,19 @@
 .navbar {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 182, 193, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 8px 16px;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 16px;
-  background: var(--pink-100);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  z-index: 1000;
+  gap: 24px;
+  z-index: 100;
+  border: 1px solid rgba(255, 182, 193, 0.2);
+  box-shadow: 0 4px 12px rgba(255, 182, 193, 0.15);
+  margin-bottom: 0;
 }
 
 .navbar-text {
@@ -48,7 +51,8 @@
 /* Ajustement pour iPhone avec safe area */
 @supports (padding: max(0px)) {
   .navbar {
-    padding-bottom: max(16px, env(safe-area-inset-bottom));
+    bottom: max(8px, env(safe-area-inset-bottom));
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
   }
 }
 
@@ -79,11 +83,35 @@
 /* Tablette et Desktop */
 @media (min-width: 768px) {
   .navbar {
-    height: 25px;
-    width: cover;
+    padding: 12px 24px;
+    bottom: 24px;
   }
 
-  .navbar-text {
-    font-size: 20px;
+  .nav-link {
+    font-size: 14px;
+    gap: 6px;
+    padding: 10px;
   }
+
+  .nav-link svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  padding: 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+  transform: translateY(-1px);
 }

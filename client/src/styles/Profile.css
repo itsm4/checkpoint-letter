@@ -7,6 +7,7 @@
   color: #ffffff;
   position: relative;
   overflow: hidden;
+  padding-bottom: 80px; /* Espace pour la navbar */
 }
 
 .logout-button {
@@ -163,6 +164,7 @@ h2 {
 @media (min-width: 768px) {
   .profile-container {
     padding: 0;
+    padding-bottom: 100px; /* Un peu plus d'espace sur desktop */
   }
 
   .letters-grid {
@@ -202,5 +204,19 @@ h2 {
   .letter-actions button {
     min-width: 80px;
     text-align: center;
+  }
+}
+
+/* Pour les écrans plus larges */
+@media (min-width: 768px) {
+  .profile-container {
+    padding-bottom: 100px; /* Un peu plus d'espace sur desktop */
+  }
+}
+
+/* Ajustement pour iPhone avec safe area */
+@supports (padding: max(0px)) {
+  .profile-container {
+    padding-bottom: max(80px, calc(80px + env(safe-area-inset-bottom)));
   }
 }
