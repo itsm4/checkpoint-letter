@@ -8,12 +8,18 @@ const Login: React.FC = () => {
         <h1 className="auth-title">Connexion</h1>
         <form className="auth-form">
           <input type="email" placeholder="Email" className="auth-input" />
-          <input type="password" placeholder="Mot de passe" className="auth-input" />
-          <button type="submit" className="auth-button">Se connecter</button>
+          <input
+            type="password"
+            placeholder="Mot de passe"
+            className="auth-input"
+          />
+          <button type="submit" className="auth-button">
+            Se connecter
+          </button>
         </form>
       </div>
     </div>
   );
 };
 
-export default Login; 
+export default Login;

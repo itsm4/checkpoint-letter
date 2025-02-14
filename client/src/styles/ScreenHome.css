@@ -155,11 +155,11 @@
   }
 
   .link-text:nth-child(odd) {
-    animation: floatLeft 12s ease-in-out infinite;
+    animation: floatLeft 40s ease-in-out infinite;
   }
 
   .link-text:nth-child(even) {
-    animation: floatRight 12s ease-in-out infinite;
+    animation: floatRight 40s ease-in-out infinite;
   }
 
   /* Décalage des animations pour un effet plus naturel */
