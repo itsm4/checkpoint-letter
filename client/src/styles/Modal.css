@@ -16,16 +16,19 @@
 
 .modal-actions {
   display: flex;
-  gap: 12px;
   justify-content: flex-end;
+  gap: 12px;
   margin-top: 24px;
+  margin-right: 16px;
+  flex-direction: row;
 }
 
 .modal-actions button {
-  padding: 8px 24px;
-  border: none;
+  padding: 12px 24px;
   border-radius: 20px;
+  border: none;
   cursor: pointer;
+  font-size: 16px;
   transition: all 0.3s ease;
 }
 
@@ -35,19 +38,18 @@
 }
 
 .confirm-btn:hover {
-  background: var(--pink-300);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
+  background: var(--pink-400);
+  transform: translateY(-1px);
 }
 
-.modal-actions .cancel-btn {
+.cancel-btn {
   background: rgba(0, 0, 0, 0.1);
-  color: #000000;
+  color: #000;
 }
 
-.modal-actions button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.cancel-btn:hover {
+  background: rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
 }
 
 .modal-overlay {
@@ -58,8 +60,8 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.7);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 1000;
 }
 
@@ -69,18 +71,13 @@
   border-radius: 12px;
   width: 90%;
   max-width: 400px;
-  position: relative;
-  box-sizing: border-box;
 }
 
 .modal-content h2 {
-  margin-bottom: 16px;
-  color: #000000;
-}
-
-.modal-content p {
-  color: #666;
-  margin-bottom: 16px;
+  color: #000;
+  margin-bottom: 20px;
+  font-family: "Mea Culpa", cursive;
+  font-size: 28px;
 }
 
 .form-group {
@@ -95,14 +92,15 @@
 
 .form-group input {
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
   font-size: 16px;
+  transition: all 0.3s ease;
 }
 
-.modal-content h2 {
-  color: #000;
-  margin-bottom: 20px;
-  font-size: 24px;
+.form-group input:focus {
+  outline: none;
+  border-color: var(--pink-300);
+  box-shadow: 0 0 0 2px rgba(255, 182, 193, 0.2);
 }

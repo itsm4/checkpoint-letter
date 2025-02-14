@@ -4,7 +4,7 @@ import "../styles/Modal.css";
 interface AddRecipientModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (name: string, email: string) => void;
+  onConfirm: (name: string, relation: string) => void;
 }
 
 const AddRecipientModal: React.FC<AddRecipientModalProps> = ({
@@ -13,13 +13,14 @@ const AddRecipientModal: React.FC<AddRecipientModalProps> = ({
   onConfirm,
 }) => {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [relation, setRelation] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onConfirm(name, email);
+    onConfirm(name, relation);
     setName("");
-    setEmail("");
+    setRelation("");
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -36,18 +37,16 @@ const AddRecipientModal: React.FC<AddRecipientModalProps> = ({
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Nom du destinataire"
               required
             />
           </div>
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="relation">Relation</label>
             <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="adresse@email.com"
+              type="text"
+              id="relation"
+              value={relation}
+              onChange={(e) => setRelation(e.target.value)}
               required
             />
           </div>
@@ -65,4 +64,4 @@ const AddRecipientModal: React.FC<AddRecipientModalProps> = ({
   );
 };
 
-export default AddRecipientModal; 
+export default AddRecipientModal;

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import "../styles/ForYou.css";
 import { FiFilter, FiPlus, FiSave, FiSend, FiX } from "react-icons/fi";
+import AddRecipientModal from "../components/AddRecipientModal";
 import NavBar from "../components/NavBar";
+import ReadLetterModal from "../components/ReadLetterModal";
 import SendConfirmationModal from "../components/SendConfirmationModal";
 import { useLetters } from "../hooks/useLetters";
 
@@ -14,6 +16,7 @@ interface Letter {
   recipient: string;
   preview: string;
   status: "draft" | "scheduled";
+  type: "for-you";
 }
 
 interface Recipient {
@@ -24,7 +27,7 @@ interface Recipient {
 
 const ForYou: React.FC = () => {
   const { drafts, sentLetters, deleteLetter, sendLetter, saveDraft } =
-    useLetters();
+    useLetters("for-you");
   const [selectedLetter, setSelectedLetter] = useState<Letter | null>(null);
   const [isWriting, setIsWriting] = useState(false);
   const [selectedRecipient, setSelectedRecipient] = useState<Recipient | null>(
@@ -38,8 +41,8 @@ const ForYou: React.FC = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [recipientId, setRecipientId] = useState("");
-
-  const recipients: Recipient[] = [
+  const [showAddRecipientModal, setShowAddRecipientModal] = useState(false);
+  const [recipients, setRecipients] = useState<Recipient[]>([
     {
       id: "1",
       name: "Sophie",
@@ -50,7 +53,8 @@ const ForYou: React.FC = () => {
       name: "Maman",
       relation: "Famille",
     },
-  ];
+  ]);
+  const [letterToRead, setLetterToRead] = useState<Letter | null>(null);
 
   const letters: Letter[] = [
     {
@@ -108,6 +112,7 @@ const ForYou: React.FC = () => {
       recipient: recipient?.name || "",
       status: "scheduled" as const,
       preview: content.substring(0, 100),
+      type: "for-you" as const,
     };
 
     if (selectedLetter?.id) {
@@ -132,6 +137,7 @@ const ForYou: React.FC = () => {
       recipient: recipient?.name || "",
       status: "draft" as const,
       preview: content.substring(0, 100),
+      type: "for-you" as const,
     };
 
     if (selectedLetter?.id) {
@@ -164,6 +170,15 @@ const ForYou: React.FC = () => {
     setSelectedRecipient(null);
   };
 
+  const handleAddRecipient = (name: string, relation: string) => {
+    const newRecipient: Recipient = {
+      id: Date.now().toString(),
+      name,
+      relation,
+    };
+    setRecipients((prev) => [...prev, newRecipient]);
+  };
+
   return (
     <div className="for-you-container">
       <div className="letters-list">
@@ -194,7 +209,11 @@ const ForYou: React.FC = () => {
                 </div>
               </button>
             ))}
-            <button type="button" className="add-recipient-btn">
+            <button
+              type="button"
+              className="add-recipient-btn"
+              onClick={() => setShowAddRecipientModal(true)}
+            >
               <FiPlus /> <span>Nouveau destinataire</span>
             </button>
           </div>
@@ -241,7 +260,11 @@ const ForYou: React.FC = () => {
             </button>
           </div>
           {sortLetters(sentLetters, sentSortOrder).map((letter) => (
-            <div key={letter.id} className="letter-item">
+            <div
+              key={letter.id}
+              className="letter-item"
+              onClick={() => setLetterToRead(letter)}
+            >
               <h3>{letter.title}</h3>
               <p>Pour: {letter.recipient}</p>
               <p>
@@ -335,7 +358,21 @@ const ForYou: React.FC = () => {
         onConfirm={handleConfirmSend}
       />
 
-      <div className={`nav-container ${showSendModal ? "hidden" : ""}`}>
+      <AddRecipientModal
+        isOpen={showAddRecipientModal}
+        onClose={() => setShowAddRecipientModal(false)}
+        onConfirm={handleAddRecipient}
+      />
+
+      <ReadLetterModal
+        isOpen={letterToRead !== null}
+        onClose={() => setLetterToRead(null)}
+        letter={letterToRead!}
+      />
+
+      <div
+        className={`nav-container ${showSendModal || letterToRead ? "hidden" : ""}`}
+      >
         <NavBar />
       </div>
     </div>
