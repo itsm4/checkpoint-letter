@@ -15,7 +15,6 @@ interface FutureLetter {
   deliveryDate: string;
   preview: string;
   status: "draft" | "scheduled";
-  type: "future-me";
 }
 
 const FutureMe: React.FC = () => {
@@ -26,8 +25,8 @@ const FutureMe: React.FC = () => {
     null,
   );
   const [isWriting, setIsWriting] = useState(!!editingLetter);
-  const { drafts, sentLetters, deleteLetter, sendLetter, saveDraft } =
-    useLetters("future-me");
+  const { letters, drafts, sentLetters, saveDraft, sendLetter, deleteLetter } =
+    useLetters();
   const [title, setTitle] = useState(editingLetter?.title || "");
   const [content, setContent] = useState(editingLetter?.content || "");
   const [deliveryDate, setDeliveryDate] = useState(
@@ -57,7 +56,6 @@ const FutureMe: React.FC = () => {
       content,
       deliveryDate,
       status: "draft",
-      type: "future-me" as const,
     });
     setIsWriting(false);
   };
@@ -71,8 +69,7 @@ const FutureMe: React.FC = () => {
       deliveryDate,
       writeDate: new Date().toISOString(),
       email,
-      status: "scheduled" as const,
-      type: "future-me" as const,
+      status: "scheduled" as const, // Force le type à "scheduled"
     };
 
     // Si c'était un brouillon, on le supprime d'abord
